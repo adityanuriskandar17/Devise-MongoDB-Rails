@@ -1,0 +1,479 @@
+openapi: 3.0.0
+info:
+  title: Rails API
+  description: API documentation for the Rails application
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+  /api/v1/customers:
+    get:
+      security:
+        - BearerAuth: []
+      summary: Get all customers
+      responses:
+        '200':
+          description: A list of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      security:
+        - BearerAuth: []
+      summary: Create a new customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+            examples:
+              exampleCustomer:
+                summary: A sample customer creation request
+                value:
+                  name: "Alex"
+                  dob: "1999-05-05"
+                  address: "Jakarta"
+                  phone: "0818887779991"
+      responses:
+        '201':
+          description: The created customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+  /api/v1/customers/{id}:
+    get:
+      security:
+        - BearerAuth: []
+      summary: Get a specific customer
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the customer
+      responses:
+        '200':
+          description: The requested customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+    put:
+      security:
+          - BearerAuth: []
+      summary: Update a specific customer
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the customer to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+            examples:
+              exampleCustomer:
+                summary: A sample customer creation request
+                value:
+                  name: "Alex Updated"
+                  dob: "1999-05-05"
+                  address: "Jakarta"
+                  phone: "0818887779991"
+      responses:
+        '200':
+          description: The updated customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+    delete:
+      security:
+        - BearerAuth: []
+      summary: Delete a specific customer
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the customer to delete
+      responses:
+        '204':
+          description: No content, customer deleted
+        '404':
+          description: Customer not found
+
+  /api/v1/insurances:
+    get:
+      security:
+        - BearerAuth: []
+      summary: Get all insurances
+      responses:
+        '200':
+          description: A list of insurances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Insurance'
+    post:
+      security:
+        - BearerAuth: []
+      summary: Create a new insurance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+            examples:
+              exampleInsurance:
+                summary: A sample insurance creation request
+                value:
+                  status: "active"
+                  active_date: "2024-08-21T14:05:47.676Z"
+                  expire_date: "2025-08-21T14:05:47.676Z"
+                  customer_id: "66c69ec5f6c521bf969c0ead"
+                  insurance_product_id: "66c69ecef6c521bf969c0eae"
+      responses:
+        '201':
+          description: The created insurance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+
+  /api/v1/insurances/{id}:
+    get:
+      security:
+        - BearerAuth: []
+      summary: Get a specific insurance
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the insurance
+      responses:
+        '200':
+          description: The requested insurance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+        '404':
+          description: Insurance not found
+    put:
+      security:
+        - BearerAuth: []
+      summary: Update a specific insurance
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the insurance to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+            examples:
+              exampleInsurance:
+                summary: A sample insurance creation request
+                value:
+                  status: "inactive"
+                  active_date: "2024-08-21T14:05:47.676Z"
+                  expire_date: "2025-08-21T14:05:47.676Z"
+                  customer_id: "66c69ec5f6c521bf969c0ead"
+                  insurance_product_id: "66c69ecef6c521bf969c0eae"
+      responses:
+        '200':
+          description: The updated insurance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+        '404':
+          description: Insurance not found
+    delete:
+      security:
+        - BearerAuth: []
+      summary: Delete a specific insurance
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the insurance to delete
+      responses:
+        '204':
+          description: No content, insurance deleted
+        '404':
+          description: Insurance not found
+
+  /api/v1/insurance_products:
+    get:
+      security:
+        - BearerAuth: []
+      summary: Get all insurance products
+      responses:
+        '200':
+          description: A list of insurance products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InsuranceProduct'
+    post:
+      security:
+        - BearerAuth: []
+      summary: Create a new insurance product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsuranceProduct'
+      responses:
+        '201':
+          description: The created insurance product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsuranceProduct'
+              example:
+                exampleInsuranceProduct:
+                summary: A sample insurance creation request
+                value:
+                  name: "Contoh Insurance"
+
+  /api/v1/insurance_products/{id}:
+    get:
+      security:
+        - BearerAuth: []
+      summary: Get a specific insurance product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the insurance product
+      responses:
+        '200':
+          description: The requested insurance product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsuranceProduct'
+        '404':
+          description: Insurance product not found
+    put:
+      security:
+        - BearerAuth: []
+      summary: Update a specific insurance product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the insurance product to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsuranceProduct'
+            example:
+                exampleInsuranceProduct:
+                summary: A sample insurance creation request
+                value:
+                  name: "Contoh Insurance Updated"
+      responses:
+        '200':
+          description: The updated insurance product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsuranceProduct'
+        '404':
+          description: Insurance product not found
+    delete:
+      security:
+        - BearerAuth: []
+      summary: Delete a specific insurance product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the insurance product to delete
+      responses:
+        '204':
+          description: No content, insurance product deleted
+        '404':
+          description: Insurance product not found
+
+
+  /users:
+    post:
+      summary: Sign up a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+            examples:
+              exampleSignUp:
+                summary: Example user sign-up request
+                value:
+                  user:
+                    email: "Test@mail.com"
+                    password: "123123"
+      responses:
+        '200':
+          description: Successful sign-up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token
+
+    delete:
+      security:
+        - BearerAuth: []
+      summary: Delete an account
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the account to delete
+      responses:
+        '204':
+          description: No content, deleted
+        '404':
+          description: Account not found
+
+  /users/sign_in:
+    post:
+      summary: Sign in a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+            examples:
+              exampleSignIn:
+                summary: Example user sign-in request
+                value:
+                  user:
+                    email: "Test@mail.com"
+                    password: "123123"
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token
+
+  /users/sign_out:
+    delete:
+      security:
+        - BearerAuth: []
+      summary: Sign out a user
+      responses:
+        '204':
+          description: Successfully signed out
+        '404':
+          description: Account not found
+
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        dob:
+          type: string
+          format: date
+        address:
+          type: string
+        phone:
+          type: string
+
+    Insurance:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        active_date:
+          type: string
+          format: date
+        expire_date:
+          type: string
+          format: date
+
+    InsuranceProduct:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    UserLogin:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+              format: email
+            password:
+              type: string
+      required:
+        - user
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
